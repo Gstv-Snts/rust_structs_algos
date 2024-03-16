@@ -1,1 +1,2 @@
-pub mod ll;
+pub mod algos;
+pub mod structs;
