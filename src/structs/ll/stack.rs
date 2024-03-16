@@ -24,35 +24,38 @@ impl<T> Stack<T> {
     }
 }
 
-#[test]
-fn stack_is_empty() {
-    let mut s = Stack::new();
-    s.push(10);
-    assert!(!s.is_empty());
-    s.pop();
-    assert!(s.is_empty())
-}
-#[test]
-fn stack_push() {
-    let mut s = Stack::new();
-    s.push(10);
-    assert!(!s.is_empty())
-}
-#[test]
-fn stack_pop() {
-    let mut s = Stack::new();
-    s.push(10);
-    assert!(!s.is_empty());
-    s.pop();
-    assert!(s.is_empty())
-}
-#[test]
-fn stack_peek() {
-    let mut s = Stack::new();
-    s.push(10);
-    assert!(!s.is_empty());
-    assert!(s.peek() == Some(&10));
-    s.pop();
-    assert!(s.is_empty());
-    assert!(s.peek() == None);
+#[cfg(test)]
+mod test {
+    #[test]
+    fn stack_is_empty() {
+        let mut s = super::Stack::new();
+        s.push(10);
+        assert!(!s.is_empty());
+        s.pop();
+        assert!(s.is_empty())
+    }
+    #[test]
+    fn stack_push() {
+        let mut s = super::Stack::new();
+        s.push(10);
+        assert!(!s.is_empty())
+    }
+    #[test]
+    fn stack_pop() {
+        let mut s = super::Stack::new();
+        s.push(10);
+        assert!(!s.is_empty());
+        s.pop();
+        assert!(s.is_empty())
+    }
+    #[test]
+    fn stack_peek() {
+        let mut s = super::Stack::new();
+        s.push(10);
+        assert!(!s.is_empty());
+        assert!(s.peek() == Some(&10));
+        s.pop();
+        assert!(s.is_empty());
+        assert!(s.peek() == None);
+    }
 }

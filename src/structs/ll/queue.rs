@@ -26,25 +26,29 @@ impl<T> Queue<T> {
         self.element.is_empty()
     }
 }
-#[test]
-fn test_is_empty() {
-    let mut q = Queue::new();
-    q.enqueue(1);
-    assert!(!q.is_empty());
-    q.dequeue();
-    assert!(q.is_empty())
-}
-#[test]
-fn test_enqueue() {
-    let mut q = Queue::new();
-    q.enqueue(1);
-    assert!(!q.is_empty())
-}
-#[test]
-fn test_dequeue() {
-    let mut q = Queue::new();
-    q.enqueue(1);
-    assert!(!q.is_empty());
-    q.dequeue();
-    assert!(q.is_empty())
+
+#[cfg(test)]
+mod test {
+    #[test]
+    fn test_is_empty() {
+        let mut q = super::Queue::new();
+        q.enqueue(1);
+        assert!(!q.is_empty());
+        q.dequeue();
+        assert!(q.is_empty())
+    }
+    #[test]
+    fn test_enqueue() {
+        let mut q = super::Queue::new();
+        q.enqueue(1);
+        assert!(!q.is_empty())
+    }
+    #[test]
+    fn test_dequeue() {
+        let mut q = super::Queue::new();
+        q.enqueue(1);
+        assert!(!q.is_empty());
+        q.dequeue();
+        assert!(q.is_empty())
+    }
 }
