@@ -1,7 +1,7 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use rand::Rng;
 use rust_structs_algos::algos::{
-    search::{binary_search, linear_search},
+    search::{async_linear_search, binary_search, linear_search},
     sort::{bubble_sort, quick_sort},
 };
 
@@ -12,6 +12,9 @@ pub fn search(c: &mut Criterion) {
     }
     c.bench_function("binary_search", |b| b.iter(|| binary_search(&v, 25)));
     c.bench_function("linear_search", |b| b.iter(|| linear_search(&v, 25)));
+    c.bench_function("async_linear_search", |b| {
+        b.iter(|| async_linear_search(&v, 25))
+    });
 }
 pub fn sort(c: &mut Criterion) {
     let mut v = black_box([0; 10000]);

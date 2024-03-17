@@ -1,4 +1,4 @@
-pub fn linear_search<T: Ord + Clone>(vec: &Vec<T>, target: T) -> Option<T> {
+pub fn linear_search<T: Ord + Clone + Send + Sync + Copy>(vec: &Vec<T>, target: T) -> Option<T> {
     for i in 0..vec.len() {
         if vec[i] == target {
             return Some(vec[i].clone());

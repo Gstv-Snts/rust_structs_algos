@@ -4,7 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+tokio = { version = "1.36.0", features = ["full"] }
 rand = "0.8.5"
+async-recursion = "1.1.0"
 
 [dev-dependencies]
 criterion = "0.5.1"

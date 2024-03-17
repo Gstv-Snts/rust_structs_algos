@@ -1,9 +1,11 @@
 use std::{fmt::Debug, usize};
 
-pub fn quick_sort<T: Sized + Ord + Clone + Debug + Copy, const COUNT: usize>(arr: &mut [T; COUNT]) {
+pub fn quick_sort<T: Sized + Ord + Clone + Debug + Copy + Send, const COUNT: usize>(
+    arr: &mut [T; COUNT],
+) {
     recurse(&mut arr[..])
 }
-pub fn recurse<T: Sized + Ord + Clone + Debug + Copy>(v: &mut [T]) {
+pub fn recurse<T: Sized + Ord + Clone + Debug + Copy + Send>(v: &mut [T]) {
     if v.len() < 2 {
         return;
     }

@@ -1,12 +1,5 @@
 use async_recursion::async_recursion;
-
-#[tokio::main]
-async fn main() {
-    let v = vec![1, 2, 6, 5, 8, 3, 11, 5, 7, 10, 23, 40, 4, 1, 3];
-    println!("{:?}", linear_search(&v, 23).await)
-}
-
-async fn linear_search<T: Ord + Clone>(vec: &Vec<T>, target: T) -> Option<T> {
+pub async fn async_linear_search<T: Ord + Clone>(vec: &Vec<T>, target: T) -> Option<T> {
     recurse(vec, target, 0).await
 }
 
