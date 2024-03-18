@@ -1,22 +1,10 @@
-use async_recursion::async_recursion;
+use std::fmt::Debug;
 
-#[tokio::main]
-async fn main() {
-    let v = vec![1, 2, 6, 5, 8, 3, 11, 5, 7, 10, 23, 40, 4, 1, 3];
-    println!("{:?}", linear_search(&v, 23).await)
-}
+use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 
-async fn linear_search<T: Ord + Clone>(vec: &Vec<T>, target: T) -> Option<T> {
-    recurse(vec, target, 0).await
-}
-
-#[async_recursion(?Send)]
-async fn recurse<T: Ord + Clone>(vec: &Vec<T>, target: T, i: usize) -> Option<T> {
-    if i >= vec.len() {
-        return None;
-    }
-    if vec[i] == target {
-        return Some(vec[i].clone());
-    }
-    recurse(vec, target, i + 1).await
+fn main() {
+    let v = [
+        23, 5, 6, 12, 1, 56, 46, 21, 41, 4, 32, 61, 41, 6, 27, 3, 13, 53, 63,
+    ];
+    v.par_iter().for_each(|&i| println!("{}", i));
 }

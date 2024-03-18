@@ -1,5 +1,5 @@
 use async_recursion::async_recursion;
-pub async fn async_linear_search<T: Ord + Clone>(vec: &Vec<T>, target: T) -> Option<T> {
+pub async fn async_linear_search<T: Ord + Clone + Send>(vec: &Vec<T>, target: T) -> Option<T> {
     recurse(vec, target, 0).await
 }
 
