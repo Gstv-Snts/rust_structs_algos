@@ -1,89 +1,82 @@
-use std::fmt::Debug;
-#[derive(Debug)]
-struct Node<T: Copy + Clone> {
-    data: Option<T>,
-    childs: [Option<Box<Node<T>>>; 2],
-}
-impl<T: Copy + Debug> Node<T> {
-    pub fn new() -> Node<T> {
-        Node {
-            data: None,
-            childs: [None, None],
-        }
-    }
-}
-#[derive(Debug)]
+use std::{fmt::Debug, ptr::null_mut};
+
 pub struct BTree<T: Copy + Debug> {
-    root: Option<Box<Node<T>>>,
+    root: Link<T>,
+}
+
+type Link<T> = *mut Node<T>;
+
+struct Node<T: Copy> {
+    elem: T,
+    left: Link<T>,
+    right: Link<T>,
 }
 
 impl<T: Copy + Ord + Debug> BTree<T> {
     pub fn new() -> BTree<T> {
-        BTree { root: None }
+        BTree { root: null_mut() }
     }
-    pub fn print_all(&self) {
-        match &self.root {
-            Some(root) => {
-                print_recurse(root);
+
+    pub fn insert(&mut self, elem: T) {
+        if self.root.is_null() {
+            self.root = Box::into_raw(Box::new(Node {
+                elem,
+                left: null_mut(),
+                right: null_mut(),
+            }));
+            return;
+        }
+        insert_recurse(self.root, elem)
+    }
+}
+
+fn insert_recurse<T: Copy + PartialOrd>(node: Link<T>, elem: T) {
+    if elem <= unsafe { (*node).elem } {
+        if unsafe { (*node).left.is_null() } {
+            unsafe {
+                (*node).left = Box::into_raw(Box::new(Node {
+                    elem,
+                    left: null_mut(),
+                    right: null_mut(),
+                }));
             }
-            None => {}
-        }
-    }
-    pub fn insert(&mut self, value: T) {
-        if self.root.is_none() {
-            self.root = Some(Box::new(Node {
-                data: Some(value),
-                childs: [None, None],
-            }));
-            return;
-        }
-        match &mut self.root {
-            Some(root) => insert_recurse(root, value),
-            None => {}
-        }
-    }
-}
-fn print_recurse<T: Copy + Debug + Ord>(node: &Box<Node<T>>) {
-    println!("{:?}", node.data);
-    if node.childs[0].is_some() {
-        match &node.childs[0] {
-            Some(child) => print_recurse(child),
-            None => {}
-        }
-    }
-    if node.childs[1].is_some() {
-        match &node.childs[1] {
-            Some(child) => print_recurse(child),
-            None => {}
-        }
-    }
-}
-fn insert_recurse<T: Copy + Debug + Ord>(node: &mut Box<Node<T>>, value: T) {
-    if Some(value) <= node.data {
-        if node.childs[0].is_none() {
-            node.childs[0] = Some(Box::new(Node {
-                data: Some(value),
-                childs: [None, None],
-            }));
-            return;
         } else {
-            match &mut node.childs[0] {
-                Some(child) => insert_recurse(child, value),
-                None => {}
-            }
+            insert_recurse(unsafe { (*node).left }, elem)
         }
     } else {
-        if node.childs[1].is_none() {
-            node.childs[1] = Some(Box::new(Node {
-                data: Some(value),
-                childs: [None, None],
-            }));
-            return;
-        } else {
-            match &mut node.childs[1] {
-                Some(child) => insert_recurse(child, value),
-                None => {}
+        if unsafe { (*node).right.is_null() } {
+            unsafe {
+                (*node).right = Box::into_raw(Box::new(Node {
+                    elem,
+                    left: null_mut(),
+                    right: null_mut(),
+                }));
             }
+        } else {
+            insert_recurse(unsafe { (*node).right }, elem)
         }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::BTree;
+
+    #[test]
+    fn new() {
+        let bt: BTree<usize> = BTree::new();
+        assert!(bt.root.is_null())
+    }
+
+    #[test]
+    fn insert() {
+        let mut bt: BTree<usize> = BTree::new();
+        assert!(bt.root.is_null());
+        bt.insert(10);
+        assert!(!bt.root.is_null());
+        bt.insert(5);
+        assert_eq!(unsafe { (*(*bt.root).left).elem }, 5);
+        bt.insert(15);
+        assert_eq!(unsafe { (*(*bt.root).right).elem }, 15)
     }
 }
