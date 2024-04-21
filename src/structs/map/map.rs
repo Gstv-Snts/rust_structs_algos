@@ -54,6 +54,5 @@ mod test {
         for i in m.keys {
             println!("{:?}", i);
         }
-        assert!(false)
     }
 }

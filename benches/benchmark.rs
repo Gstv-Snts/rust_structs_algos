@@ -2,6 +2,7 @@ use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use rand::{thread_rng, Rng};
 use rust_structs_algos::{
     algos::{
+        leetcode::two_sum,
         search::{async_linear_search, binary_search, linear_search},
         sort::{bubble_sort, quick_sort},
     },
@@ -33,5 +34,15 @@ pub fn sum_of_square(c: &mut Criterion) {
     c.bench_function("iter_rayon", |b| b.iter(|| rayon_sum_of_squares(&a)));
 }
 
-criterion_group!(benches, search, sort, sum_of_square);
+pub fn leet_code(c: &mut Criterion) {
+    c.bench_function("two_sum", |b| {
+        b.iter(|| {
+            assert_eq!(two_sum(vec![2, 7, 11, 15], 9), vec![0, 1]);
+            assert_eq!(two_sum(vec![3, 2, 4], 6), vec![1, 2]);
+            assert_eq!(two_sum(vec![3, 3], 6), vec![0, 1]);
+        })
+    });
+}
+
+criterion_group!(benches, search, sort, sum_of_square, leet_code);
 criterion_main!(benches);
