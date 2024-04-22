@@ -2,7 +2,7 @@ use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use rand::{thread_rng, Rng};
 use rust_structs_algos::{
     algos::{
-        leetcode::two_sum,
+        leetcode::{roman_to_int, two_sum},
         search::{async_linear_search, binary_search, linear_search},
         sort::{bubble_sort, quick_sort},
     },
@@ -40,6 +40,13 @@ pub fn leet_code(c: &mut Criterion) {
             assert_eq!(two_sum(vec![2, 7, 11, 15], 9), vec![0, 1]);
             assert_eq!(two_sum(vec![3, 2, 4], 6), vec![1, 2]);
             assert_eq!(two_sum(vec![3, 3], 6), vec![0, 1]);
+        })
+    });
+    c.bench_function("roman_to_int", |b| {
+        b.iter(|| {
+            assert_eq!(roman_to_int("MCMXCIV".to_string()), 1994);
+            assert_eq!(roman_to_int("III".to_string()), 3);
+            assert_eq!(roman_to_int("LVIII".to_string()), 58);
         })
     });
 }
