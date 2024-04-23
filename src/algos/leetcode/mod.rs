@@ -8,3 +8,5 @@ mod longest_commom_prefix;
 pub use longest_commom_prefix::longest_common_prefix;
 mod valid_parentheses;
 pub use valid_parentheses::is_valid;
+mod merge_two_sorted_lists;
+pub use merge_two_sorted_lists::merge_two_lists;

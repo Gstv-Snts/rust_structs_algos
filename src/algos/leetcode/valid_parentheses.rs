@@ -18,6 +18,6 @@ mod test {
         assert_eq!(super::is_valid("()[]{}".to_string()), true);
         assert_eq!(super::is_valid("(]".to_string()), false);
         assert_eq!(super::is_valid("(){}}{".to_string()), false);
-        assert_eq!(super::is_valid("{[]}".to_string()), false);
+        assert_eq!(super::is_valid("{[]}".to_string()), true);
     }
 }
