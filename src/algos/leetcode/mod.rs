@@ -10,3 +10,5 @@ mod valid_parentheses;
 pub use valid_parentheses::is_valid;
 mod merge_two_sorted_lists;
 pub use merge_two_sorted_lists::merge_two_lists;
+mod remove_duplicates_from_sorted_array;
+pub use remove_duplicates_from_sorted_array::remove_duplicates;
